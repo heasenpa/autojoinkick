@@ -9,3 +9,55 @@ task.spawn(function()
         end
     end
 end)
+-- xóa map
+for i,v in next, workspace:GetDescendants() do
+    pcall(function()
+        v.Transparency = 1
+    end)
+end
+for i,v in next, getnilinstances() do
+    pcall(function()
+        v.Transparency = 1
+        for i1,v1 in next, v:GetDescendants() do
+            v1.Transparency = 1
+        end
+    end)
+end
+a = workspace
+a.DescendantAdded:Connect(function(v)
+    pcall(function()
+        v.Transparency = 1
+    end)
+end)
+-- ✅ Anti AFK 
+task.spawn(function()
+    local Players = game:GetService("Players")
+    local VirtualUser = game:GetService("VirtualUser")
+    local player = Players.LocalPlayer
+
+    -- 🖥️ Tạo GUI nhỏ góc dưới phải
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "AFKGui"
+    screenGui.ResetOnSpawn = false
+    screenGui.IgnoreGuiInset = true
+    screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Global
+    screenGui.DisplayOrder = 9999
+    screenGui.Parent = player:WaitForChild("PlayerGui")
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(0, 100, 0, 25)
+    label.Position = UDim2.new(1, -110, 1, -35) -- góc phải dưới
+    label.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    label.BackgroundTransparency = 0.4
+    label.TextColor3 = Color3.fromRGB(0, 255, 0)
+    label.Text = "AFK"
+    label.Font = Enum.Font.Gotham
+    label.TextSize = 14
+    label.Parent = screenGui
+
+    -- 🔁 Chống AFK
+    player.Idled:Connect(function()
+        VirtualUser:CaptureController()
+        VirtualUser:ClickButton2(Vector2.new())
+    end)
+end)
