@@ -1,6 +1,6 @@
 -- Giới hạn FPS
 task.spawn(function()
-    local targetFPS = 10
+    local targetFPS = 5
     while task.wait(2) do
         if setfpscap then
             setfpscap(targetFPS)
